@@ -123,6 +123,7 @@ function SingleChatPanel(props) {
           </IconButton>
         </div>
       </div>
+
       <ScrollableFeed>
         <div className="chatPanel__body">
           <SingleChatList
@@ -131,6 +132,7 @@ function SingleChatPanel(props) {
           ></SingleChatList>
         </div>
       </ScrollableFeed>
+
       <div className="chatPanel__send">
         <IconButton>
           <InsertEmoticonIcon></InsertEmoticonIcon>

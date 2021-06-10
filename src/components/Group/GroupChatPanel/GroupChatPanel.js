@@ -107,51 +107,50 @@ function GroupChatPanel() {
   };
 
   return (
-    <div className="chatPanel">
-      <React.Fragment>
-        <div className="chatPanel__header">
-          <Avatar src="https://yt3.ggpht.com/ytc/AAUvwngw35YY8vYI86RTOoEGafSxEjghjzTcKw3LbMyZ=s900-c-k-c0x00ffffff-no-rj"></Avatar>
-          <div className="chatPanel__headerInfo">
-            <h2>{group.group}</h2>
-          </div>
-
-          <div className="chatPanel__headerIcons">
-            <IconButton>
-              <SearchIcon></SearchIcon>
-            </IconButton>
-            <IconButton>
-              <MoreVertIcon></MoreVertIcon>
-            </IconButton>
-          </div>
+    <React.Fragment>
+      <div className="chatPanel__header">
+        <Avatar src="https://yt3.ggpht.com/ytc/AAUvwngw35YY8vYI86RTOoEGafSxEjghjzTcKw3LbMyZ=s900-c-k-c0x00ffffff-no-rj"></Avatar>
+        <div className="chatPanel__headerInfo">
+          <h2>{group.group}</h2>
         </div>
 
-        <ScrollableFeed>
-          <div className="chatPanel__body">
-            <GroupChatList getChatHandler={getGroupChats}></GroupChatList>
-          </div>
-        </ScrollableFeed>
-        <div className="chatPanel__send">
+        <div className="chatPanel__headerIcons">
           <IconButton>
-            <InsertEmoticonIcon></InsertEmoticonIcon>
+            <SearchIcon></SearchIcon>
           </IconButton>
-
-          <form>
-            <input
-              type="text"
-              value={message}
-              onChange={messageHanlder}
-              placeholder="Type Here"
-            ></input>
-            <button onClick={sendMessage} type="submit">
-              Send
-            </button>
-          </form>
           <IconButton>
-            <MicIcon></MicIcon>
+            <MoreVertIcon></MoreVertIcon>
           </IconButton>
         </div>
-      </React.Fragment>
-    </div>
+      </div>
+
+      <ScrollableFeed>
+        <div className="chatPanel__body">
+          <GroupChatList getChatHandler={getGroupChats}></GroupChatList>
+        </div>
+      </ScrollableFeed>
+
+      <div className="chatPanel__send">
+        <IconButton>
+          <InsertEmoticonIcon></InsertEmoticonIcon>
+        </IconButton>
+
+        <form>
+          <input
+            type="text"
+            value={message}
+            onChange={messageHanlder}
+            placeholder="Type Here"
+          ></input>
+          <button onClick={sendMessage} type="submit">
+            Send
+          </button>
+        </form>
+        <IconButton>
+          <MicIcon></MicIcon>
+        </IconButton>
+      </div>
+    </React.Fragment>
   );
 }
 
