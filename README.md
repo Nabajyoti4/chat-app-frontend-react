@@ -1,6 +1,3 @@
-## Rfce
+## Chat application
 
-
-## User schema -> name , email , phone , password
-## Chatromm -> name
-## Message -> chatroom, user, messages
+A chat app built on react front end and node backdend with realtime chat using socket IO
