@@ -1,0 +1,48 @@
+.form__heading {
+    text-align: center;
+    background-color: green;
+    color: white;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.form__body {
+    padding: 20px;
+}
+
+.form__control {
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    padding-top: 20px;
+    font-weight: 700;
+}
+
+.form__control>input {
+    outline: none;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+
+.form__select {
+
+    width: 400px;
+
+}
+
+.form__button {
+    display: flex;
+    padding-top: 30px;
+    justify-content: center;
+}
+
+.form__button>button {
+    background-color: lightgreen;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    width: 100px;
+}

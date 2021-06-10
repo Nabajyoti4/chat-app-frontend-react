@@ -1,0 +1,39 @@
+.searchList {
+    display: flex;
+    padding: 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #f6f6f6;
+
+}
+
+
+.searchList__avatar {
+    height: 30px;
+    width: 30px;
+}
+
+.searchList:hover {
+    background-color: #ebebeb;
+}
+
+.searchList__info {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 15px;
+}
+
+.searchList__info>h2 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+
+.searchList__btn {
+    margin-left: 30px;
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border-radius: 15px;
+}

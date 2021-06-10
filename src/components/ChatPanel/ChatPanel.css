@@ -1,0 +1,113 @@
+.chatPanel {
+    display: flex;
+    flex-direction: column;
+    flex: 0.65;
+}
+
+.chatPanel__header {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.chatPanel__headerInfo {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.chatPanel__headerInfo>h2 {
+    font-weight: 500;
+}
+
+.chatPanel__headerInfo>p {
+    color: gray;
+}
+
+
+
+/** chat body **/
+.chatPanel__empty {
+    flex: 1;
+    padding: 30px;
+    background-image: url("../../assets/main.jpg");
+    background-repeat: repeat;
+    background-position: center;
+    background-size: cover;
+    overflow-x: hidden;
+    border: 10px solid white;
+}
+
+.chatPanel__empty>h3 {
+    color: white;
+    text-align: center;
+    font-size: 40px;
+}
+
+.chatPanel__body {
+    flex: 1;
+    padding: 30px;
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ0Vi_dinS36F8zQs83g474A42I5bjVuKAkw&usqp=CAU");
+    background-repeat: repeat;
+    background-position: center;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+
+.chatPanel__message {
+    position: relative;
+    font-size: 16px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    width: fit-content;
+}
+
+.chatPanel__recevier {
+    margin-left: auto;
+    background-color: lightgreen;
+}
+
+.chatPanel__name {
+    position: absolute;
+    top: -2px;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.chatPanel__timestamp {
+    margin-left: 10px;
+    font-size: xx-small;
+}
+
+/**Chat send message **/
+.chatPanel__send {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 62px;
+    border-top: 1px solid lightgray;
+}
+
+.chatPanel__send>form {
+    flex: 1;
+    display: flex;
+}
+
+.chatPanel__send>form>input {
+    flex: 1;
+    border-radius: 30px;
+    padding: 10px;
+    border: none;
+}
+
+.chatPanel__send>form>button {
+    display: none;
+}
+
+.chatPanel__send>.MuiSvgIcon-root {
+    padding: 10px;
+    color: gray;
+}
