@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import socket from "../../../socket/socket";
 import axios from "axios";
 import ScrollableFeed from "react-scrollable-feed";
+import Picker from "emoji-picker-react";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
@@ -22,9 +23,31 @@ function GroupChatPanel() {
   const user = useSelector((state) => state.auth.user);
   const [message, setMessage] = useState("");
 
+  //emoji state
+  const [chosenEmoji, setChosenEmoji] = useState(null);
+  const [showEmoji, setShowEmoji] = useState(false);
+
   //set message
   const messageHanlder = (e) => {
     setMessage(e.target.value);
+  };
+
+  //emoji
+  const onEmojiClick = (event, emojiObject) => {
+    setChosenEmoji(emojiObject);
+  };
+
+  //since useState doestnot update the chosend emoji state ,
+  //i used useEffect to see if the state of emoji changes, then set the message state to the chosen emoji
+  useEffect(() => {
+    if (chosenEmoji) {
+      setMessage(chosenEmoji.emoji);
+    }
+  }, [chosenEmoji]);
+
+  //emoji state
+  const showEmojiHandler = () => {
+    setShowEmoji(!showEmoji);
   };
 
   /**
@@ -131,10 +154,21 @@ function GroupChatPanel() {
       </ScrollableFeed>
 
       <div className="chatPanel__send">
-        <IconButton>
+        <IconButton onClick={showEmojiHandler}>
           <InsertEmoticonIcon></InsertEmoticonIcon>
         </IconButton>
 
+        {showEmoji && (
+          <Picker
+            onEmojiClick={onEmojiClick}
+            disableSkinTonePicker
+            disableSearchBar
+            groupVisibility={{
+              flags: false,
+            }}
+            pickerStyle={{ width: "40%", top: "-310%" }}
+          />
+        )}
         <form>
           <input
             type="text"

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import socket from "../../socket/socket";
 import ScrollableFeed from "react-scrollable-feed";
+import Picker from "emoji-picker-react";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
@@ -20,6 +21,11 @@ import SingleChatList from "./SingleChatList";
 function SingleChatPanel(props) {
   //states
   const dispatch = useDispatch();
+
+  //emoji state
+  const [chosenEmoji, setChosenEmoji] = useState(null);
+  const [showEmoji, setShowEmoji] = useState(false);
+
   const currentFriend = useSelector(
     (state) => state.auth.currentSelectedFriend
   );
@@ -28,6 +34,24 @@ function SingleChatPanel(props) {
   //set message
   const messageHanlder = (e) => {
     setMessage(e.target.value);
+  };
+
+  //emoji
+  const onEmojiClick = (event, emojiObject) => {
+    setChosenEmoji(emojiObject);
+  };
+
+  //since useState doestnot update the chosend emoji state ,
+  //i used useEffect to see if the state of emoji changes, then set the message state to the chosen emoji
+  useEffect(() => {
+    if (chosenEmoji) {
+      setMessage(chosenEmoji.emoji);
+    }
+  }, [chosenEmoji]);
+
+  //emoji state
+  const showEmojiHandler = () => {
+    setShowEmoji(!showEmoji);
   };
 
   /**
@@ -134,9 +158,21 @@ function SingleChatPanel(props) {
       </ScrollableFeed>
 
       <div className="chatPanel__send">
-        <IconButton>
+        <IconButton onClick={showEmojiHandler}>
           <InsertEmoticonIcon></InsertEmoticonIcon>
         </IconButton>
+
+        {showEmoji && (
+          <Picker
+            onEmojiClick={onEmojiClick}
+            disableSkinTonePicker
+            disableSearchBar
+            groupVisibility={{
+              flags: false,
+            }}
+            pickerStyle={{ width: "40%", top: "-310%" }}
+          />
+        )}
 
         <form>
           <input

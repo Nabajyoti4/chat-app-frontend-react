@@ -91,6 +91,7 @@
     border-top: 1px solid lightgray;
 }
 
+
 .chatPanel__send>form {
     flex: 1;
     display: flex;
