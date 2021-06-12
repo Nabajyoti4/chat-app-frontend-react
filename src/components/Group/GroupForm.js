@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../../components/UI/Modal";
-import axios from "axios";
+import axios from "../../axios";
 import "./GroupForm.css";
 import MultiSelect from "react-multi-select-component";
 import { useSelector } from "react-redux";
@@ -19,7 +19,7 @@ function GroupForm(props) {
 
   const getUser = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/group/get-members", {
+      const res = await axios.get("/group/get-members", {
         withCredentials: true,
       });
 
@@ -52,16 +52,17 @@ function GroupForm(props) {
   }, [props.getMember]);
 
   const createGroup = async (e) => {
-    const res = await axios({
-      method: "post",
-      url: "http://localhost:3002/group/create-group",
-      withCredentials: true,
-      data: {
+    const res = await axios.post(
+      "/group/create-group",
+      {
         creator: user.id,
         room: name,
         members: selectedFriends,
       },
-    });
+      {
+        withCredentials: true,
+      }
+    );
 
     console.log(res);
   };

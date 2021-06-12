@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import socket from "../../../socket/socket";
-import axios from "axios";
+import axios from "../../../axios";
 import ScrollableFeed from "react-scrollable-feed";
 import Picker from "emoji-picker-react";
 
@@ -56,15 +56,12 @@ function GroupChatPanel() {
    */
   const getGroupChats = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:3002/group/get-group-chats",
-        {
-          withCredentials: true,
-          params: {
-            room: group.group,
-          },
-        }
-      );
+      const res = await axios.get("/group/get-group-chats", {
+        withCredentials: true,
+        params: {
+          room: group.group,
+        },
+      });
 
       dispatch(groupActions.setCurrentGroupChats(res.data.chats));
     } catch (err) {
@@ -111,16 +108,15 @@ function GroupChatPanel() {
    */
   const storeChat = async () => {
     try {
-      const res = await axios({
-        method: "post",
-        url: "http://localhost:3002/group/store-group-chat",
-        withCredentials: true,
-        data: {
+      const res = await axios.post(
+        "/group/store-group-chat",
+        {
           sender: user.name,
           message: message,
           room: group.group,
         },
-      });
+        { withCredentials: true }
+      );
 
       console.log(res);
       getGroupChats();

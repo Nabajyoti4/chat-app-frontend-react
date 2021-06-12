@@ -1,6 +1,6 @@
 import React from "react";
 import "./SearchList.css";
-import axios from "axios";
+import axios from "../../../axios";
 
 function SearchList(props) {
   const { id, name } = props;
@@ -11,16 +11,17 @@ function SearchList(props) {
   };
 
   const addFriend = async () => {
-    const res = await axios({
-      method: "post",
-      url: "http://localhost:3002/chat/add-friend",
-      withCredentials: true,
-      data: {
+    const res = await axios.post(
+      "/chat/add-friend",
+      {
         sender: props.auth,
         recevier: id,
         room: `${props.auth}-${name}`,
       },
-    });
+      {
+        withCredentials: true,
+      }
+    );
 
     console.log(res);
   };

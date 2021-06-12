@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./Home.css";
-import axios from "axios";
+import axios from "../axios";
 import { useHistory } from "react-router-dom";
 import socket from "../socket/socket";
 
@@ -23,7 +23,7 @@ export const Home = () => {
   useEffect(() => {
     const getChat = async () => {
       try {
-        const res = await axios.get("http://localhost:3002/auth/chat", {
+        const res = await axios.get("/auth/chat", {
           withCredentials: true,
         });
 

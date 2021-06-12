@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../axios";
 import socket from "../../socket/socket";
 import ScrollableFeed from "react-scrollable-feed";
 import Picker from "emoji-picker-react";
@@ -60,7 +60,7 @@ function SingleChatPanel(props) {
    */
   const getChats = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/chat/get-chats", {
+      const res = await axios.get("/chat/get-chats", {
         withCredentials: true,
         params: {
           room: currentFriend.room,
@@ -112,16 +112,17 @@ function SingleChatPanel(props) {
    */
   const storeChat = async () => {
     try {
-      const res = await axios({
-        method: "post",
-        url: "http://localhost:3002/chat/store-chat",
-        withCredentials: true,
-        data: {
+      const res = await axios.post(
+        "/chat/store-chat",
+        {
           sender: props.name,
           message: message,
           room: currentFriend.room,
         },
-      });
+        {
+          withCredentials: true,
+        }
+      );
 
       console.log(res);
       getChats();

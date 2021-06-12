@@ -55,12 +55,9 @@ function SignUp() {
     fromData.append("password", user.password);
     fromData.append("avatar", avatar);
 
-    console.log(fromData);
-
-    console.log(user);
     const res = await axios({
       method: "post",
-      url: "http://localhost:3002/auth/register",
+      url: `${process.env.REACT_APP_URL}/auth/register`,
       headers: {
         "content-type": "multipart/form-data",
       },

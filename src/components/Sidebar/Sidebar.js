@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
-import axios from "axios";
+import axios from "../../axios";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
@@ -57,7 +57,7 @@ function Sidebar(props) {
   useEffect(() => {
     const getFriends = async () => {
       try {
-        const res = await axios.get("http://localhost:3002/chat/get-friends", {
+        const res = await axios.get("/chat/get-friends", {
           withCredentials: true,
           params: {
             id: user.id,

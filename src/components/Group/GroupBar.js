@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import axios from "axios";
+import axios from "../../axios";
 
 import SearchIcon from "@material-ui/icons/Search";
 import GroupList from "./GroupList";
@@ -14,7 +14,7 @@ function GroupBar() {
 
   const getGroups = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/group/get-groups", {
+      const res = await axios.get("/group/get-groups", {
         withCredentials: true,
         params: {
           id: user.id,

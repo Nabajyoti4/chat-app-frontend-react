@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Search.css";
-import axios from "axios";
+import axios from "../../../axios";
 
 import SearchIcon from "@material-ui/icons/Search";
 import SearchList from "./SearchList";
@@ -17,8 +17,9 @@ function Search(props) {
 
   const getUser = async () => {
     try {
-      const res = await axios.get("http://localhost:3002/chat/users", {
+      const res = await axios.get("/chat/users", {
         withCredentials: true,
+
         params: {
           name: searchUser,
         },

@@ -2,16 +2,12 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
 
-
-
 //matrial Ui
 import Input from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
+import axios from "./../axios";
 
 function Login() {
-
-
   // custom button styleing
   const btnStyle = {
     display: "flex",
@@ -68,15 +64,14 @@ function Login() {
     }
 
     try {
-      const res = await axios({
-        method: "post",
-        url: "http://localhost:3002/auth/login",
-        withCredentials: true,
-        data: {
+      const res = await axios.post(
+        "/auth/login",
+        {
           email: email,
           password: password,
         },
-      });
+        { withCredentials: true }
+      );
 
       console.log(res);
 
