@@ -6,6 +6,7 @@ import "./Login.css";
 import Input from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "./../axios";
+import { useCookies } from "react-cookie";
 
 function Login() {
   // custom button styleing
@@ -13,6 +14,8 @@ function Login() {
     display: "flex",
     marginTop: "20px",
   };
+
+  const [cookies, setCookie] = useCookies(["jwtToken"]);
 
   // hooks
   const history = useHistory(); // history hook
@@ -74,6 +77,7 @@ function Login() {
       );
 
       console.log(res);
+      setCookie("jwtToken", res.data.token, { path: "/" });
 
       // if login is successfull route user to main chat
       history.push("/");
