@@ -77,7 +77,10 @@ function Login() {
       );
 
       console.log(res);
-      setCookie("jwtToken", res.data.token, { path: "/" });
+      setCookie("jwtToken", res.data.token, {
+        secure: true,
+        sameSite: "none",
+      });
 
       // if login is successfull route user to main chat
       history.push("/");
