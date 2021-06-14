@@ -62,6 +62,9 @@ function SingleChatPanel(props) {
     try {
       const res = await axios.get("/chat/get-chats", {
         withCredentials: true,
+        headers: {
+          authorization: sessionStorage.getItem("token"),
+        },
         params: {
           room: currentFriend.room,
         },
@@ -120,7 +123,9 @@ function SingleChatPanel(props) {
           room: currentFriend.room,
         },
         {
-          withCredentials: true,
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+          },
         }
       );
 

@@ -20,7 +20,9 @@ function GroupForm(props) {
   const getUser = async () => {
     try {
       const res = await axios.get("/group/get-members", {
-        withCredentials: true,
+        headers: {
+          authorization: sessionStorage.getItem("token"),
+        },
       });
 
       const data = await res.data;
@@ -61,6 +63,11 @@ function GroupForm(props) {
       },
       {
         withCredentials: true,
+      },
+      {
+        headers: {
+          authorization: sessionStorage.getItem("token"),
+        },
       }
     );
 

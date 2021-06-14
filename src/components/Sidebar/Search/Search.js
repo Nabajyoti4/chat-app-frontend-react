@@ -23,6 +23,9 @@ function Search(props) {
         params: {
           name: searchUser,
         },
+        headers: {
+          authorization: sessionStorage.getItem("token"),
+        },
       });
 
       const data = await res.data;

@@ -25,6 +25,9 @@ export const Home = () => {
       try {
         const res = await axios.get("/auth/chat", {
           withCredentials: true,
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+          },
         });
 
         const data = await res.data;

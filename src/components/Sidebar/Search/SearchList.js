@@ -19,7 +19,9 @@ function SearchList(props) {
         room: `${props.auth}-${name}`,
       },
       {
-        withCredentials: true,
+        headers: {
+          authorization: sessionStorage.getItem("token"),
+        },
       }
     );
 

@@ -16,6 +16,9 @@ function GroupBar() {
     try {
       const res = await axios.get("/group/get-groups", {
         withCredentials: true,
+        headers: {
+          authorization: sessionStorage.getItem("token"),
+        },
         params: {
           id: user.id,
         },

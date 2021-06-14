@@ -59,6 +59,9 @@ function Sidebar(props) {
       try {
         const res = await axios.get("/chat/get-friends", {
           withCredentials: true,
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+          },
           params: {
             id: user.id,
           },

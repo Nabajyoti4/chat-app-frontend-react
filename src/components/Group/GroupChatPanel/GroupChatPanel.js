@@ -61,6 +61,9 @@ function GroupChatPanel() {
         params: {
           room: group.group,
         },
+        headers: {
+          authorization: sessionStorage.getItem("token"),
+        },
       });
 
       dispatch(groupActions.setCurrentGroupChats(res.data.chats));
@@ -115,7 +118,11 @@ function GroupChatPanel() {
           message: message,
           room: group.group,
         },
-        { withCredentials: true }
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+          },
+        }
       );
 
       console.log(res);
