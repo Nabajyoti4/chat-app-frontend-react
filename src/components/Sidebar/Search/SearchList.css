@@ -22,18 +22,13 @@
     margin-left: 15px;
 }
 
+.searchList__form {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 15px;
+}
+
 .searchList__info>h2 {
     font-size: 16px;
     margin-bottom: 8px;
-}
-
-
-.searchList__btn {
-    margin-left: 30px;
-    cursor: pointer;
-    border: none;
-    padding: 10px;
-    background-color: green;
-    color: white;
-    border-radius: 15px;
 }

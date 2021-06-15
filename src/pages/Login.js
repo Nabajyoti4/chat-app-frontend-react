@@ -7,6 +7,10 @@ import Input from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "./../axios";
 
+//toast
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function Login() {
   // custom button styleing
   const btnStyle = {
@@ -78,7 +82,11 @@ function Login() {
       // if login is successfull route user to main chat
       history.push("/");
     } catch (err) {
-      console.log("Error" + err);
+      toast.error(err.response.data, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+      });
     }
   };
 
@@ -87,40 +95,51 @@ function Login() {
   return (
     <div className="home">
       <div className="home__body">
+        <ToastContainer />
         <form className="login__form" method="post">
-          <Input
-            fullWidth
-            type="email"
-            name="email"
-            label="Email"
-            value={email}
-            onBlur={emailBlurHandler}
-            onChange={setEmailHandler}
-            placeholder="enter email"
-          ></Input>
-          {validEmail && <p className="invalid__text">Enter a valid email</p>}
-          <Input
-            fullWidth
-            type="passowrd"
-            label="Password"
-            name="password"
-            value={password}
-            onBlur={passwordBlurHandler}
-            onChange={setPasswordHandler}
-            placeholder="enter password"
-          ></Input>
-          {validPassword && (
-            <p className="invalid__text">Enter a valid Password</p>
-          )}
-          <Button
-            style={btnStyle}
-            variant="contained"
-            type="submit"
-            color="primary"
-            onClick={loginHandler}
-          >
-            Login
-          </Button>
+          <div className="login__control">
+            <Input
+              fullWidth
+              type="email"
+              name="email"
+              label="Email"
+              variant="outlined"
+              value={email}
+              onBlur={emailBlurHandler}
+              onChange={setEmailHandler}
+              placeholder="enter email"
+            ></Input>
+            {validEmail && <p className="invalid__text">Enter a valid email</p>}
+          </div>
+
+          <div className="login__control">
+            <Input
+              fullWidth
+              type="passowrd"
+              label="Password"
+              name="password"
+              variant="outlined"
+              value={password}
+              onBlur={passwordBlurHandler}
+              onChange={setPasswordHandler}
+              placeholder="enter password"
+            ></Input>
+            {validPassword && (
+              <p className="invalid__text">Enter a valid Password</p>
+            )}
+          </div>
+
+          <div className="login__btn">
+            <Button
+              style={btnStyle}
+              variant="contained"
+              type="submit"
+              color="primary"
+              onClick={loginHandler}
+            >
+              Login
+            </Button>
+          </div>
         </form>
       </div>
     </div>

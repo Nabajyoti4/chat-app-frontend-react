@@ -40,6 +40,7 @@ function Sidebar(props) {
   };
 
   const setSearchHandler = () => {
+    setShowGroup(!showGroup);
     setShowSearch(!showSearch);
   };
 

@@ -3,20 +3,17 @@ import "./Login.css";
 //matrial Ui
 import Input from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import { Avatar } from "@material-ui/core";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function SignUp() {
   const btnStyle = {
     display: "flex",
     marginTop: "20px",
-  };
-
-  const avatarStyle = {
-    width: "100px",
-    height: "100px",
   };
 
   const [user, setUser] = useState({
@@ -27,6 +24,7 @@ function SignUp() {
   });
 
   const [avatar, setAvatar] = useState({});
+  const history = useHistory();
 
   let name, value;
   // user input handler
@@ -55,36 +53,46 @@ function SignUp() {
     fromData.append("password", user.password);
     fromData.append("avatar", avatar);
 
-    const res = await axios({
-      method: "post",
-      url: `${process.env.REACT_APP_URL}/auth/register`,
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-      data: fromData,
-    });
+    try {
+      const res = await axios({
+        method: "post",
+        url: `${process.env.REACT_APP_URL}/auth/register`,
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+        data: fromData,
+      });
 
-    console.log(res);
+      console.log(res);
+      toast("User Created!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      history.push("/login");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <div className="home">
+      <ToastContainer />
       <div className="home__body">
-        <Grid align="center">
-          <Grid align="center">
-            <Avatar
-              style={avatarStyle}
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwIT6unmOV7VlYD1PKD0_WKFBBor3EQisCCg&usqp=CAU"
-            ></Avatar>
-          </Grid>
-
-          <form
-            className="login__form"
-            method="post"
-            encType="multipart/form-data"
-          >
+        <form
+          className="login__form"
+          method="post"
+          encType="multipart/form-data"
+        >
+          <div className="login__control">
             <Input
               fullWidth
+              variant="outlined"
               type="text"
               label="Name"
               placeholder="enter Name"
@@ -92,9 +100,11 @@ function SignUp() {
               value={user.name}
               onChange={userStoreHandler}
             ></Input>
-
+          </div>
+          <div className="login__control">
             <Input
               fullWidth
+              variant="outlined"
               type="text"
               label="Email"
               placeholder="enter email"
@@ -102,17 +112,23 @@ function SignUp() {
               value={user.email}
               onChange={userStoreHandler}
             ></Input>
+          </div>
+          <div className="login__control">
             <Input
               fullWidth
               type="passowrd"
+              variant="outlined"
               label="Password"
               placeholder="enter password"
               name="password"
               value={user.password}
               onChange={userStoreHandler}
             ></Input>
+          </div>
+          <div className="login__control">
             <Input
               fullWidth
+              variant="outlined"
               type="number"
               label="Phone Number"
               placeholder="enter phone number"
@@ -120,13 +136,19 @@ function SignUp() {
               value={user.phone}
               onChange={userStoreHandler}
             ></Input>
+          </div>
+
+          <div className="login__control">
             <Input
               fullWidth
+              variant="outlined"
               type="file"
-              label="Add Avatarr"
               placeholder="enter your Profile Picture"
               onChange={imageHandler}
             ></Input>
+          </div>
+
+          <div className="login__btn">
             <Button
               style={btnStyle}
               variant="contained"
@@ -136,8 +158,8 @@ function SignUp() {
             >
               Sign Up
             </Button>
-          </form>
-        </Grid>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -3,11 +3,14 @@ import "./Home.css";
 import axios from "../axios";
 import { useHistory } from "react-router-dom";
 import socket from "../socket/socket";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //redux
 //Redux
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
+import { notificationActions } from "../store/notification";
 
 //components
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -18,6 +21,7 @@ export const Home = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth.user);
+  const notification = useSelector((state) => state.notification.notification);
 
   // get chat function to get all data os user
   useEffect(() => {
@@ -32,6 +36,12 @@ export const Home = () => {
 
         const data = await res.data;
 
+        dispatch(
+          notificationActions.setNotification({
+            type: "success",
+            message: "Sign In succesfull",
+          })
+        );
         // check for validation or any other errors
         if (!res.status === 200) {
           throw new Error(res.error);
@@ -39,7 +49,12 @@ export const Home = () => {
 
         dispatch(authActions.login(data));
       } catch (err) {
-        console.log(err);
+        dispatch(
+          notificationActions.setNotification({
+            type: "error",
+            message: "Credential Errors Try logging in Again",
+          })
+        );
         history.push("/login");
       }
     };
@@ -57,6 +72,7 @@ export const Home = () => {
 
   return (
     <div className="App">
+      <ToastContainer />
       <div className="app__body">
         <Sidebar></Sidebar>
         {/* Chatpanel */}

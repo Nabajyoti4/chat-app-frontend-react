@@ -3,10 +3,17 @@ import Modal from "../../components/UI/Modal";
 import axios from "../../axios";
 import "./GroupForm.css";
 import MultiSelect from "react-multi-select-component";
-import { useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
+import { notificationActions } from "../../store/notification";
+
+//toast
+import "react-toastify/dist/ReactToastify.css";
 
 function GroupForm(props) {
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
   const [name, setName] = useState("");
 
   const [friends, setFriends] = useState([]);
@@ -54,24 +61,40 @@ function GroupForm(props) {
   }, [props.getMember]);
 
   const createGroup = async (e) => {
-    const res = await axios.post(
-      "/group/create-group",
-      {
-        creator: user.id,
-        room: name,
-        members: selectedFriends,
-      },
-      {
-        withCredentials: true,
-      },
-      {
-        headers: {
-          authorization: sessionStorage.getItem("token"),
+    try {
+      const res = await axios.post(
+        "/group/create-group",
+        {
+          creator: user.id,
+          room: name,
+          members: selectedFriends,
         },
-      }
-    );
 
-    console.log(res);
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+          },
+        }
+      );
+
+      props.modalShow();
+
+      dispatch(
+        notificationActions.setNotification({
+          type: "success",
+          message: "Group Created",
+        })
+      );
+    } catch (err) {
+      props.modalShow();
+
+      dispatch(
+        notificationActions.setNotification({
+          type: "error",
+          message: err.response.data.message,
+        })
+      );
+    }
   };
 
   const submitGroupHandler = (e) => {
