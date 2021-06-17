@@ -68,6 +68,7 @@ function SignUp() {
       });
 
       const data = await res.data;
+      console.log(data);
 
       dispatch(
         notificationActions.setNotification({
@@ -76,6 +77,7 @@ function SignUp() {
         })
       );
     } catch (err) {
+      console.log( err.response);
       dispatch(
         notificationActions.setNotification({
           type: "error",

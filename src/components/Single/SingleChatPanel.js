@@ -6,7 +6,7 @@ import Picker from "emoji-picker-react";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { authActions } from "../../store/auth";
+import { singleChatActions } from "../../store/single-chat";
 
 //Ui
 import { Avatar, IconButton } from "@material-ui/core";
@@ -27,8 +27,9 @@ function SingleChatPanel(props) {
   const [showEmoji, setShowEmoji] = useState(false);
 
   const currentFriend = useSelector(
-    (state) => state.auth.currentSelectedFriend
+    (state) => state.singleChat.currentSelectedFriend
   );
+
   const [message, setMessage] = useState("");
 
   //set message
@@ -70,7 +71,7 @@ function SingleChatPanel(props) {
         },
       });
 
-      dispatch(authActions.setCurrentFriendChats(res.data.chats));
+      dispatch(singleChatActions.setCurrentFriendChats(res.data.chats));
     } catch (err) {
       console.log(err);
     }
@@ -141,7 +142,7 @@ function SingleChatPanel(props) {
         <Avatar src="https://yt3.ggpht.com/ytc/AAUvwngw35YY8vYI86RTOoEGafSxEjghjzTcKw3LbMyZ=s900-c-k-c0x00ffffff-no-rj"></Avatar>
         <div className="chatPanel__headerInfo">
           <h3>{currentFriend.friend}</h3>
-          <p>{currentFriend.room}</p>
+          {currentFriend.logined && <p>online</p>}
         </div>
 
         <div className="chatPanel__headerIcons">
@@ -154,14 +155,10 @@ function SingleChatPanel(props) {
         </div>
       </div>
 
-      <ScrollableFeed>
-        <div className="chatPanel__body">
-          <SingleChatList
-            getChatHandler={getChats}
-            friend={currentFriend.friend}
-          ></SingleChatList>
-        </div>
-      </ScrollableFeed>
+      <SingleChatList
+        getChatHandler={getChats}
+        friend={currentFriend.friend}
+      ></SingleChatList>
 
       <div className="chatPanel__send">
         <IconButton onClick={showEmojiHandler}>

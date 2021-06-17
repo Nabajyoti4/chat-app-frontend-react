@@ -59,6 +59,7 @@ export const Home = () => {
     };
 
     getChat();
+    // eslint-disable-next-line
   }, [dispatch]);
 
   useEffect(() => {

@@ -1,11 +1,11 @@
 import React from "react";
 import socket from "../../socket/socket";
-
+import ScrollableFeed from "react-scrollable-feed";
 //redux
 import { useSelector } from "react-redux";
 
 function SingleChatList(props) {
-  const chats = useSelector((state) => state.auth.currentFriendChats);
+  const chats = useSelector((state) => state.singleChat.currentFriendChats);
 
   socket.once("recevied", (text) => {
     console.log("socket recevive on");
@@ -13,7 +13,7 @@ function SingleChatList(props) {
   });
 
   return (
-    <div>
+    <ScrollableFeed className="chatPanel__body">
       {chats.map((chat) => (
         <p
           key={chat._id}
@@ -29,7 +29,7 @@ function SingleChatList(props) {
           </span>
         </p>
       ))}
-    </div>
+    </ScrollableFeed>
   );
 }
 

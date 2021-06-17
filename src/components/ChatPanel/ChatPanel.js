@@ -8,7 +8,7 @@ import SingleChatPanel from "../Single/SingleChatPanel";
 import "./ChatPanel.css";
 
 function ChatPanel(props) {
-  const showChat = useSelector((state) => state.auth.singleChat);
+  const showChat = useSelector((state) => state.singleChat.singleChatShow);
   const showGroup = useSelector((state) => state.group.groupChat);
 
   return (

@@ -3,7 +3,7 @@ import "./ChatList.css";
 
 //Redux
 import { useDispatch } from "react-redux";
-import { authActions } from "../../../store/auth";
+import { singleChatActions } from "../../../store/single-chat";
 import { groupActions } from "../../../store/group";
 
 // Matrial Ui
@@ -14,15 +14,16 @@ function ChatList(props) {
 
   const getChatPage = () => {
     dispatch(
-      authActions.setCurrentSelectedFriend({
+      singleChatActions.setCurrentSelectedFriend({
         friend: props.name,
         friendId: props.friendId,
         room: props.room,
         avatar: props.avatar,
+        logined: props.logined,
       })
     );
     dispatch(groupActions.setGroupChat(false));
-    dispatch(authActions.setSingleChat(true));
+    dispatch(singleChatActions.setSingleChat(true));
   };
 
   return (

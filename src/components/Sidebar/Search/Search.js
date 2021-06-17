@@ -15,6 +15,10 @@ function Search(props) {
     getUser();
   };
 
+  const onGetFriendsHandler = () => {
+    props.setGetFriends();
+  };
+
   const getUser = async () => {
     try {
       const res = await axios.get("/chat/users", {
@@ -67,6 +71,7 @@ function Search(props) {
                 key={user._id}
                 id={user._id}
                 name={user.name}
+                onGetFriends={onGetFriendsHandler}
               ></SearchList>
             );
           })}

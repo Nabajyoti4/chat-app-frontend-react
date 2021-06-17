@@ -21,7 +21,7 @@ function SearchList(props) {
 
   const addFriend = async () => {
     try {
-      const res = await axios.post(
+      await axios.post(
         "/chat/add-friend",
         {
           sender: props.auth,
@@ -34,6 +34,8 @@ function SearchList(props) {
           },
         }
       );
+
+      props.onGetFriends();
 
       dispatch(
         notificationActions.setNotification({

@@ -4,7 +4,7 @@ import axios from "../../axios";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { authActions } from "../../store/auth";
+import { singleChatActions } from "../../store/single-chat";
 
 // material Ui
 import { Avatar, IconButton } from "@material-ui/core";
@@ -24,7 +24,9 @@ import GroupBar from "../Group/GroupBar";
 
 function Sidebar(props) {
   const user = useSelector((state) => state.auth.user);
-  const friendsSelect = useSelector((state) => state.auth.friends);
+
+  const friendsSelect = useSelector((state) => state.singleChat.friends);
+
   const dispatch = useDispatch();
 
   const [showGroup, setShowGroup] = useState(false);
@@ -55,32 +57,43 @@ function Sidebar(props) {
     setGroupForm(!groupForm);
   };
 
-  useEffect(() => {
-    const getFriends = async () => {
-      try {
-        const res = await axios.get("/chat/get-friends", {
-          withCredentials: true,
-          headers: {
-            authorization: sessionStorage.getItem("token"),
-          },
-          params: {
-            id: user.id,
-          },
-        });
+  /**
+   * When new friend this function will trigger
+   * Update the friend list
+   * remove group chat and serach list and show chat list
+   */
+  const onAddFriend = () => {
+    getFriends();
+    setShowGroup(false);
+    setShowSearch(false);
+  };
 
-        const data = await res.data;
+  const getFriends = async () => {
+    try {
+      const res = await axios.get("/chat/get-friends", {
+        withCredentials: true,
+        headers: {
+          authorization: sessionStorage.getItem("token"),
+        },
+        params: {
+          id: user.id,
+        },
+      });
 
-        // check for validation or any other errors
-        if (!res.status === 200) {
-          throw new Error(res.error);
-        }
+      const data = await res.data;
 
-        dispatch(authActions.setFriends(data));
-      } catch (err) {
-        console.log(err);
+      // check for validation or any other errors
+      if (!res.status === 200) {
+        throw new Error(res.error);
       }
-    };
 
+      dispatch(singleChatActions.setFriends(data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
     getFriends();
   }, [user, dispatch]);
 
@@ -107,6 +120,7 @@ function Sidebar(props) {
               chats={friend.chats}
               avatar={friend.recevier.avatar}
               room={friend.room}
+              logined={friend.recevier.logined}
             ></ChatList>
           );
         })}
@@ -121,6 +135,7 @@ function Sidebar(props) {
         <Avatar src={`/profile/${user.avatar}`}></Avatar>
         <div className="chatPanel__headerInfo">
           <h3>{user.name}</h3>
+    
         </div>
 
         <div className="sidebar__headerRight">
@@ -150,7 +165,7 @@ function Sidebar(props) {
 
       {!showSearch && !showGroup && chatList}
       {showGroup && <GroupBar></GroupBar>}
-      {showSearch && <Search id={user.id}></Search>}
+      {showSearch && <Search id={user.id} setGetFriends={onAddFriend}></Search>}
 
       {groupForm && (
         <GroupForm
