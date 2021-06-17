@@ -60,7 +60,7 @@ function SignUp() {
     try {
       const res = await axios({
         method: "post",
-        url: `${process.env.REACT_APP_URL}/auth/register`,
+        url: `${process.env.REACT_APP_URL}auth/register`,
         headers: {
           "content-type": "multipart/form-data",
         },
