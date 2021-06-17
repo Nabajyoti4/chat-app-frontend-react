@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
-
+import { useDispatch } from "react-redux";
 //matrial Ui
 import Input from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "./../axios";
 
 //toast
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { notificationActions } from "../store/notification";
 
 function Login() {
   // custom button styleing
   const btnStyle = {
     display: "flex",
     marginTop: "20px",
+    marginLeft: "20px",
   };
+
+  const dispatch = useDispatch();
 
   // hooks
   const history = useHistory(); // history hook
@@ -82,11 +86,12 @@ function Login() {
       // if login is successfull route user to main chat
       history.push("/");
     } catch (err) {
-      toast.error(err.response.data, {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-      });
+      dispatch(
+        notificationActions.setNotification({
+          type: "error",
+          message: err.response.data,
+        })
+      );
     }
   };
 
@@ -115,7 +120,7 @@ function Login() {
           <div className="login__control">
             <Input
               fullWidth
-              type="passowrd"
+              type="password"
               label="Password"
               name="password"
               variant="outlined"
@@ -138,6 +143,17 @@ function Login() {
               onClick={loginHandler}
             >
               Login
+            </Button>
+            <Button
+              style={btnStyle}
+              variant="contained"
+              type="submit"
+              color="primary"
+              onClick={() => {
+                history.push("/SignUp");
+              }}
+            >
+              Sign Up
             </Button>
           </div>
         </form>

@@ -3,7 +3,7 @@ import "./Home.css";
 import axios from "../axios";
 import { useHistory } from "react-router-dom";
 import socket from "../socket/socket";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //redux
@@ -21,7 +21,6 @@ export const Home = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth.user);
-  const notification = useSelector((state) => state.notification.notification);
 
   // get chat function to get all data os user
   useEffect(() => {
@@ -60,7 +59,7 @@ export const Home = () => {
     };
 
     getChat();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     socket.connect();

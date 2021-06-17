@@ -69,7 +69,6 @@ function GroupForm(props) {
           room: name,
           members: selectedFriends,
         },
-
         {
           headers: {
             authorization: sessionStorage.getItem("token"),

@@ -13,7 +13,7 @@ const notificationSlice = createSlice({
     setNotification(state, action) {
       const data = action.payload;
 
-      console.log(data.type);
+      console.log(data.message);
       if (data.type === "error") {
         toast.error(data.message, {
           position: "top-center",

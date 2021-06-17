@@ -3,17 +3,20 @@ import "./Login.css";
 //matrial Ui
 import Input from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { useDispatch } from "react-redux";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { notificationActions } from "../store/notification";
 
 function SignUp() {
   const btnStyle = {
     display: "flex",
     marginTop: "20px",
+    marginLeft: "20px",
   };
 
   const [user, setUser] = useState({
@@ -25,6 +28,7 @@ function SignUp() {
 
   const [avatar, setAvatar] = useState({});
   const history = useHistory();
+  const dispatch = useDispatch();
 
   let name, value;
   // user input handler
@@ -63,20 +67,21 @@ function SignUp() {
         data: fromData,
       });
 
-      console.log(res);
-      toast("User Created!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      const data = await res.data;
 
-      history.push("/login");
+      dispatch(
+        notificationActions.setNotification({
+          type: "success",
+          message: data.message,
+        })
+      );
     } catch (err) {
-      console.log(err);
+      dispatch(
+        notificationActions.setNotification({
+          type: "error",
+          message: err.response.data.message,
+        })
+      );
     }
   };
 
@@ -116,7 +121,7 @@ function SignUp() {
           <div className="login__control">
             <Input
               fullWidth
-              type="passowrd"
+              type="password"
               variant="outlined"
               label="Password"
               placeholder="enter password"
@@ -157,6 +162,17 @@ function SignUp() {
               onClick={postData}
             >
               Sign Up
+            </Button>
+            <Button
+              style={btnStyle}
+              variant="contained"
+              type="submit"
+              color="primary"
+              onClick={() => {
+                history.push("/login");
+              }}
+            >
+              Login
             </Button>
           </div>
         </form>
