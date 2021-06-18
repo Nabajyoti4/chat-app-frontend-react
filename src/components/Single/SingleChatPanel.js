@@ -142,7 +142,14 @@ function SingleChatPanel(props) {
         <Avatar src="https://yt3.ggpht.com/ytc/AAUvwngw35YY8vYI86RTOoEGafSxEjghjzTcKw3LbMyZ=s900-c-k-c0x00ffffff-no-rj"></Avatar>
         <div className="chatPanel__headerInfo">
           <h3>{currentFriend.friend}</h3>
-          {currentFriend.logined && <p>online</p>}
+          {currentFriend.logined ? (
+            <p>online</p>
+          ) : (
+            <p>
+              Last Online :{" "}
+              {new Date(currentFriend.online).toLocaleTimeString()}
+            </p>
+          )}
         </div>
 
         <div className="chatPanel__headerIcons">

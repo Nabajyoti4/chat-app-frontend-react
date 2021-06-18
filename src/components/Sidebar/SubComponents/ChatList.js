@@ -20,6 +20,7 @@ function ChatList(props) {
         room: props.room,
         avatar: props.avatar,
         logined: props.logined,
+        online: props.online,
       })
     );
     dispatch(groupActions.setGroupChat(false));

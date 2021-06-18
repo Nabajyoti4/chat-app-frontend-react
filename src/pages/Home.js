@@ -65,9 +65,6 @@ export const Home = () => {
   useEffect(() => {
     socket.connect();
     socket.emit("user", user);
-    socket.on("welcome", (data) => {
-      console.log(data);
-    });
   }, [user]);
 
   return (

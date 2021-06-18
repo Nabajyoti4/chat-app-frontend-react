@@ -121,6 +121,7 @@ function Sidebar(props) {
               avatar={friend.recevier.avatar}
               room={friend.room}
               logined={friend.recevier.logined}
+              online={friend.recevier.lastOnline}
             ></ChatList>
           );
         })}
@@ -135,7 +136,6 @@ function Sidebar(props) {
         <Avatar src={`/profile/${user.avatar}`}></Avatar>
         <div className="chatPanel__headerInfo">
           <h3>{user.name}</h3>
-    
         </div>
 
         <div className="sidebar__headerRight">
