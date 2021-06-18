@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../axios";
 import socket from "../../socket/socket";
-import ScrollableFeed from "react-scrollable-feed";
+
 import Picker from "emoji-picker-react";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { singleChatActions } from "../../store/single-chat";
+import { singleChatActions, fetchUserStatus } from "../../store/single-chat";
 
 //Ui
 import { Avatar, IconButton } from "@material-ui/core";
@@ -29,6 +29,8 @@ function SingleChatPanel(props) {
   const currentFriend = useSelector(
     (state) => state.singleChat.currentSelectedFriend
   );
+  const status = useSelector((state) => state.singleChat.currentFriendStatus);
+  const online = useSelector((state) => state.singleChat.currentFriendOnline);
 
   const [message, setMessage] = useState("");
 
@@ -54,6 +56,11 @@ function SingleChatPanel(props) {
   const showEmojiHandler = () => {
     setShowEmoji(!showEmoji);
   };
+
+  socket.on("logout", () => {
+    console.log("thunk");
+    dispatch(fetchUserStatus(currentFriend.friendId));
+  });
 
   /**
    * get the updated chats of user and friend from the database
@@ -142,13 +149,10 @@ function SingleChatPanel(props) {
         <Avatar src="https://yt3.ggpht.com/ytc/AAUvwngw35YY8vYI86RTOoEGafSxEjghjzTcKw3LbMyZ=s900-c-k-c0x00ffffff-no-rj"></Avatar>
         <div className="chatPanel__headerInfo">
           <h3>{currentFriend.friend}</h3>
-          {currentFriend.logined ? (
+          {status ? (
             <p>online</p>
           ) : (
-            <p>
-              Last Online :{" "}
-              {new Date(currentFriend.online).toLocaleTimeString()}
-            </p>
+            <p>Last Online : {new Date(online).toLocaleTimeString()}</p>
           )}
         </div>
 

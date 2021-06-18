@@ -23,6 +23,12 @@ function ChatList(props) {
         online: props.online,
       })
     );
+    dispatch(
+      singleChatActions.setCurrentFriendStatus({
+        logined: props.logined,
+        lastOnline: props.online,
+      })
+    );
     dispatch(groupActions.setGroupChat(false));
     dispatch(singleChatActions.setSingleChat(true));
   };

@@ -23,7 +23,7 @@ const notificationSlice = createSlice({
       } else {
         toast.success(data.message, {
           position: "top-center",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
         });
       }

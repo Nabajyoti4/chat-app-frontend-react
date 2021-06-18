@@ -111,7 +111,11 @@ function Sidebar(props) {
           return (
             <ChatList
               key={friend._id}
-              friendId={friend._id}
+              friendId={
+                user.name === friend.recevier.name
+                  ? friend.sender._id
+                  : friend.recevier._id
+              }
               name={
                 user.name === friend.recevier.name
                   ? friend.sender.name
