@@ -6,7 +6,7 @@ import Picker from "emoji-picker-react";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
-import { singleChatActions, fetchUserStatus } from "../../store/single-chat";
+import { singleChatActions, fetchFriend } from "../../store/single-chat";
 
 //Ui
 import { Avatar, IconButton } from "@material-ui/core";
@@ -29,6 +29,7 @@ function SingleChatPanel(props) {
   const currentFriend = useSelector(
     (state) => state.singleChat.currentSelectedFriend
   );
+  const room = useSelector((state) => state.singleChat.room.room);
   const status = useSelector((state) => state.singleChat.currentFriendStatus);
   const online = useSelector((state) => state.singleChat.currentFriendOnline);
 
@@ -57,9 +58,14 @@ function SingleChatPanel(props) {
     setShowEmoji(!showEmoji);
   };
 
-  socket.on("logout", () => {
-    console.log("thunk");
-    dispatch(fetchUserStatus(currentFriend.friendId));
+  socket.once("logout", () => {
+    console.log(" logout thunk");
+    dispatch(fetchFriend(currentFriend._id));
+  });
+
+  socket.once("logined", () => {
+    console.log("login thunk");
+    dispatch(fetchFriend(currentFriend._id));
   });
 
   /**
@@ -74,7 +80,7 @@ function SingleChatPanel(props) {
           authorization: sessionStorage.getItem("token"),
         },
         params: {
-          room: currentFriend.room,
+          room: room,
         },
       });
 
@@ -97,8 +103,8 @@ function SingleChatPanel(props) {
    * on change of selected friend emit the new room to socket for joining the room
    */
   useEffect(() => {
-    socket.emit("room", currentFriend.room);
-  }, [currentFriend.room]);
+    socket.emit("room", room);
+  }, [room]);
 
   /**
    * emit a socket event with room name to server
@@ -110,7 +116,7 @@ function SingleChatPanel(props) {
     e.preventDefault();
 
     socket.emit("chat", {
-      room: currentFriend.room,
+      room: room,
     });
 
     storeChat();
@@ -128,7 +134,7 @@ function SingleChatPanel(props) {
         {
           sender: props.name,
           message: message,
-          room: currentFriend.room,
+          room: room,
         },
         {
           headers: {
@@ -146,9 +152,9 @@ function SingleChatPanel(props) {
   return (
     <React.Fragment>
       <div className="chatPanel__header">
-        <Avatar src="https://yt3.ggpht.com/ytc/AAUvwngw35YY8vYI86RTOoEGafSxEjghjzTcKw3LbMyZ=s900-c-k-c0x00ffffff-no-rj"></Avatar>
+        <Avatar src={`/profile/${currentFriend.avatar}`}></Avatar>
         <div className="chatPanel__headerInfo">
-          <h3>{currentFriend.friend}</h3>
+          <h3>{currentFriend.name}</h3>
           {status ? (
             <p>online</p>
           ) : (
@@ -168,7 +174,7 @@ function SingleChatPanel(props) {
 
       <SingleChatList
         getChatHandler={getChats}
-        friend={currentFriend.friend}
+        friend={currentFriend.name}
       ></SingleChatList>
 
       <div className="chatPanel__send">

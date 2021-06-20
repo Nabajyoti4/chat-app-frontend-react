@@ -17,7 +17,7 @@ import GroupIcon from "@material-ui/icons/Group";
 import PersonIcon from "@material-ui/icons/Person";
 
 // Components
-import ChatList from "./SubComponents/ChatList";
+import FriendList from "./SubComponents/FriendList";
 import Search from "./Search/Search";
 import GroupForm from "../Group/GroupForm";
 import GroupBar from "../Group/GroupBar";
@@ -109,7 +109,7 @@ function Sidebar(props) {
       <div className="sidebar_chats">
         {friendsSelect.map((friend) => {
           return (
-            <ChatList
+            <FriendList
               key={friend._id}
               friendId={
                 user.name === friend.recevier.name
@@ -122,11 +122,23 @@ function Sidebar(props) {
                   : friend.recevier.name
               }
               chats={friend.chats}
-              avatar={friend.recevier.avatar}
+              avatar={
+                user.name === friend.recevier.name
+                  ? friend.sender.avatar
+                  : friend.recevier.avatar
+              }
               room={friend.room}
-              logined={friend.recevier.logined}
-              online={friend.recevier.lastOnline}
-            ></ChatList>
+              logined={
+                user.name === friend.recevier.name
+                  ? friend.sender.logined
+                  : friend.recevier.logined
+              }
+              online={
+                user.name === friend.recevier.name
+                  ? friend.sender.lastOnline
+                  : friend.recevier.lastOnline
+              }
+            ></FriendList>
           );
         })}
       </div>
