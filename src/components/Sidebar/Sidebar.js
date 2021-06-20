@@ -16,11 +16,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import GroupIcon from "@material-ui/icons/Group";
 import PersonIcon from "@material-ui/icons/Person";
 
+//drawer
+
 // Components
 import FriendList from "./SubComponents/FriendList";
 import Search from "./Search/Search";
 import GroupForm from "../Group/GroupForm";
 import GroupBar from "../Group/GroupBar";
+import TemporaryDrawer from "../UI/Drawer";
 
 function Sidebar(props) {
   const user = useSelector((state) => state.auth.user);
@@ -33,6 +36,7 @@ function Sidebar(props) {
   const [showSearch, setShowSearch] = useState(false);
   const [groupForm, setGroupForm] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [drawer, setDrawer] = useState(false);
 
   const setMenuHandler = (event) => {
     setAnchorEl(event.currentTarget);
@@ -172,12 +176,21 @@ function Sidebar(props) {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem
+              onClick={() => {
+                setDrawer(true);
+              }}
+            >
+              Profile
+            </MenuItem>
             <MenuItem onClick={showGroupFormHandler}>New Group</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
         </div>
       </div>
+      
+      <TemporaryDrawer setDrawer={drawer}></TemporaryDrawer>
+
 
       {!showSearch && !showGroup && chatList}
       {showGroup && <GroupBar></GroupBar>}
@@ -189,6 +202,8 @@ function Sidebar(props) {
           modalShow={showGroupFormHandler}
         ></GroupForm>
       )}
+
+    
     </div>
   );
 }

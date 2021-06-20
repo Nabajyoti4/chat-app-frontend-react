@@ -1,0 +1,23 @@
+.header {
+    height: 100px;
+    background-color: #02bfa3;
+    color: white;
+    padding: 20px;
+}
+
+.header>h3 {
+    margin-left: 10px;
+}
+
+.avatar {
+    height: 200px;
+    background-color: whitesmoke;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.body {
+    padding: 20px;
+}

@@ -73,7 +73,7 @@ export const Home = () => {
       <div className="app__body">
         <Sidebar></Sidebar>
         {/* Chatpanel */}
-        <ChatPanel name={user.name}></ChatPanel>
+        <ChatPanel></ChatPanel>
       </div>
     </div>
   );

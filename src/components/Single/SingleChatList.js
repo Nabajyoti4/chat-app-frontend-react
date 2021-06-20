@@ -18,11 +18,11 @@ function SingleChatList(props) {
         <p
           key={chat._id}
           className={`chatPanel__message ${
-            chat.sender !== props.friend ? "chatPanel__recevier" : " "
+            chat.sender.name !== props.friend ? "chatPanel__recevier" : " "
           }
               `}
         >
-          <span className="chatPanel__name">{chat.sender}</span>
+          <span className="chatPanel__name">{chat.sender.name}</span>
           {chat.message}
           <span className="chatPanel__timestamp">
             {new Date().toUTCString()}

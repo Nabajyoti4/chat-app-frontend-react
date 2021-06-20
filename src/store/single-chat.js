@@ -84,6 +84,7 @@ const singleChatSlice = createSlice({
     // },
     [fetchFriend.fulfilled]: (state, action) => {
       // Add user to the state array
+
       if (action.payload) {
         state.currentSelectedFriend = action.payload;
         state.currentFriendStatus = action.payload.logined;

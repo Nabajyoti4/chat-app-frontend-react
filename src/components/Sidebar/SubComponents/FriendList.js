@@ -40,7 +40,8 @@ function ChatList(props) {
       <div className="sidebarChat__info">
         <h2>{props.name}</h2>
         <p>
-          {props.chats.length > 0 && props.chats[props.chats.length - 1].sender}
+          {props.chats.length > 0 &&
+            props.chats[props.chats.length - 1].sender.name}
           {" : "}
           {props.chats.length > 0 &&
             props.chats[props.chats.length - 1].message}

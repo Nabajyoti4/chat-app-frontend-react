@@ -7,7 +7,7 @@ import SingleChatPanel from "../Single/SingleChatPanel";
 // css
 import "./ChatPanel.css";
 
-function ChatPanel(props) {
+function ChatPanel() {
   const showChat = useSelector((state) => state.singleChat.singleChatShow);
   const showGroup = useSelector((state) => state.group.groupChat);
 
@@ -19,7 +19,7 @@ function ChatPanel(props) {
         </div>
       )}
 
-      {showChat && <SingleChatPanel name={props.name}></SingleChatPanel>}
+      {showChat && <SingleChatPanel></SingleChatPanel>}
       {showGroup && <GroupChatPanel></GroupChatPanel>}
     </div>
   );

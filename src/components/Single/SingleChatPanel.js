@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+
 import axios from "../../axios";
 import socket from "../../socket/socket";
 
 import Picker from "emoji-picker-react";
+
+import ReactAudioPlayer from "react-audio-player";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
@@ -29,6 +32,7 @@ function SingleChatPanel(props) {
   const currentFriend = useSelector(
     (state) => state.singleChat.currentSelectedFriend
   );
+  const user = useSelector((state) => state.auth.user);
   const room = useSelector((state) => state.singleChat.room.room);
   const status = useSelector((state) => state.singleChat.currentFriendStatus);
   const online = useSelector((state) => state.singleChat.currentFriendOnline);
@@ -132,7 +136,7 @@ function SingleChatPanel(props) {
       const res = await axios.post(
         "/chat/store-chat",
         {
-          sender: props.name,
+          sender: user.id,
           message: message,
           room: room,
         },
@@ -158,7 +162,13 @@ function SingleChatPanel(props) {
           {status ? (
             <p>online</p>
           ) : (
-            <p>Last Online : {new Date(online).toLocaleTimeString()}</p>
+            <p>
+              Last Online :{" "}
+              {new Date(online).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
           )}
         </div>
 
@@ -205,7 +215,19 @@ function SingleChatPanel(props) {
             Send
           </button>
         </form>
-        <IconButton>
+
+        <IconButton
+          onClick={() => {
+            <ReactAudioPlayer
+              ref={(onPlay) => {
+                this.rap = onPlay;
+              }}
+              src="noti.mp3"
+              autoPlay
+              controls
+            />;
+          }}
+        >
           <MicIcon></MicIcon>
         </IconButton>
       </div>
