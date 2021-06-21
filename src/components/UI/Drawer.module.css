@@ -18,6 +18,11 @@
     justify-content: center;
 }
 
+.MuiAvatar-circle:hover {
+
+    cursor: pointer;
+}
+
 .body {
     padding: 20px;
 }

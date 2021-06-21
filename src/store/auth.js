@@ -26,6 +26,38 @@ export const updateName = createAsyncThunk(
   }
 );
 
+/**
+ * thunk to upload image
+ */
+export const updateAvatar = createAsyncThunk(
+  "updateAvatar",
+  async (data, thunkAPI) => {
+    console.log(data.files[0]);
+    var bodyFormData = new FormData();
+    bodyFormData.append("id", data.id);
+    bodyFormData.append("avatar", data.files[0]);
+
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_URL}user/upload-avatar/`,
+      headers: {
+        "content-type": "multipart/form-data",
+        authorization: sessionStorage.getItem("token"),
+      },
+      data: bodyFormData,
+    });
+
+    // const response = await axios.post("/user/upload-avatar/", bodyFormData, {
+    //   headers: {
+    //     authorization: sessionStorage.getItem("token"),
+    //     "content-type": "multipart/form-data",
+    //   },
+    // });
+    console.log("edit user avatar api thunk");
+    return response.data;
+  }
+);
+
 const authSlice = createSlice({
   name: "authentication",
   initialState: initialAuthState,
@@ -43,6 +75,11 @@ const authSlice = createSlice({
     [updateName.fulfilled]: (state, action) => {
       if (action.payload) {
         state.user = action.payload;
+      }
+    },
+    [updateAvatar.fulfilled]: (state, action) => {
+      if (action.payload) {
+        state.user.avatar = action.payload.path;
       }
     },
   },

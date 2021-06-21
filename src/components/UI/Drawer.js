@@ -4,7 +4,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
 import classes from "./Drawer.module.css";
-import { updateName } from "../../store/auth";
+import { updateName, updateAvatar } from "../../store/auth";
+
+//dropzone
+import { DropzoneDialog } from "material-ui-dropzone";
 
 //Ui
 import { Avatar, IconButton } from "@material-ui/core";
@@ -15,10 +18,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import CheckIcon from "@material-ui/icons/Check";
+import Tooltip from "@material-ui/core/Tooltip";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles({
   list: {
-    width: 350,
+    width: 450,
   },
 });
 
@@ -27,6 +33,30 @@ function TemporaryDrawer({ drawer }) {
   const [state, setState] = React.useState(false);
   const user = useSelector((state) => state.auth.user);
   const [nameEdit, setNameEdit] = useState(false);
+
+  //menu
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  //dropzone
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const uploadAvatarHandler = (files) => {
+    dispatch(
+      updateAvatar({
+        files: files,
+        id: user.id,
+      })
+    );
+    setOpen(false);
+  };
 
   //name edit
   const nameRef = useRef("naba");
@@ -69,11 +99,48 @@ function TemporaryDrawer({ drawer }) {
         <h3>Profile</h3>
       </div>
       <div className={classes.avatar}>
-        <Avatar
-          src={`/profile/${user.avatar}`}
-          style={{ height: "200px", width: "200px" }}
-        ></Avatar>
+        <Tooltip title="Edit">
+          <Avatar
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={handleClick}
+            src={`${process.env.REACT_APP_URL}${user.avatar}`}
+            style={{
+              height: "200px",
+              width: "200px",
+              cursor: "pointer",
+            }}
+          ></Avatar>
+        </Tooltip>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleClose}>
+            <Button onClick={() => setOpen(true)}>Upload Image</Button>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>Remove Photo</MenuItem>
+          <MenuItem onClick={handleClose}>View photo</MenuItem>
+        </Menu>
       </div>
+      <DropzoneDialog
+        acceptedFiles={["image/*"]}
+        cancelButtonText={"cancel"}
+        submitButtonText={"submit"}
+        dialogTitle="Upload New Avatar"
+        maxFileSize={5000000}
+        open={open}
+        onClose={() => setOpen(false)}
+        onSave={(files) => {
+          uploadAvatarHandler(files);
+        }}
+        showPreviews={false}
+        showPreviewsInDropzone={true}
+        showFileNamesInPreview={true}
+      />
       <div className={classes.body}>
         <Typography
           variant="subtitle2"

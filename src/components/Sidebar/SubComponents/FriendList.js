@@ -35,7 +35,7 @@ function ChatList(props) {
     <div className="sidebarChat" onClick={getChatPage}>
       <Avatar
         className="sidebarChat__avatar"
-        src={`/profile/${props.avatar}`}
+        src={`${process.env.REACT_APP_URL}${props.avatar}`}
       ></Avatar>
       <div className="sidebarChat__info">
         <h2>{props.name}</h2>

@@ -153,7 +153,7 @@ function Sidebar(props) {
     <div className="sidebar">
       {/* sidebar header */}
       <div className="sidebar__header">
-        <Avatar src={`/profile/${user.avatar}`}></Avatar>
+        <Avatar src={`${process.env.REACT_APP_URL}${user.avatar}`}></Avatar>
         <div className="chatPanel__headerInfo">
           <h3>{user.name}</h3>
         </div>
