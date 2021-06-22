@@ -17,6 +17,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import MicIcon from "@material-ui/icons/Mic";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 //component
 import SingleChatList from "./SingleChatList";
@@ -36,6 +37,8 @@ function SingleChatPanel(props) {
   const room = useSelector((state) => state.singleChat.room.room);
   const status = useSelector((state) => state.singleChat.currentFriendStatus);
   const online = useSelector((state) => state.singleChat.currentFriendOnline);
+
+  const [loading, setLoading] = useState(false);
 
   const [message, setMessage] = useState("");
 
@@ -76,7 +79,11 @@ function SingleChatPanel(props) {
    * get the updated chats of user and friend from the database
    * dipatch auth action to store the chats of user and friend in state
    */
-  const getChats = async () => {
+  const getChats = async (sending) => {
+    if (!sending) {
+      setLoading(true);
+      dispatch(singleChatActions.setCurrentFriendChats([]));
+    }
     try {
       const res = await axios.get("/chat/get-chats", {
         withCredentials: true,
@@ -92,6 +99,7 @@ function SingleChatPanel(props) {
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
   /**
@@ -148,7 +156,7 @@ function SingleChatPanel(props) {
       );
 
       console.log(res);
-      getChats();
+      getChats(true);
     } catch (err) {
       console.log(err);
     }
@@ -156,21 +164,44 @@ function SingleChatPanel(props) {
   return (
     <React.Fragment>
       <div className="chatPanel__header">
-        <Avatar src={`/profile/${currentFriend.avatar}`}></Avatar>
-        <div className="chatPanel__headerInfo">
-          <h3>{currentFriend.name}</h3>
-          {status ? (
-            <p>online</p>
-          ) : (
-            <p>
-              Last Online :{" "}
-              {new Date(online).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
-          )}
-        </div>
+        {loading && (
+          <React.Fragment>
+            <Skeleton
+              animation="wave"
+              variant="circle"
+              width={40}
+              height={40}
+            />
+            <div className="chatPanel__headerInfo">
+              <Skeleton
+                animation="wave"
+                height={10}
+                width="50%"
+                style={{ marginBottom: 6 }}
+              />
+              <Skeleton animation="wave" height={10} width="30%" />
+            </div>
+          </React.Fragment>
+        )}
+        {!loading && (
+          <React.Fragment>
+            <Avatar src={`/profile/${currentFriend.avatar}`}></Avatar>
+            <div className="chatPanel__headerInfo">
+              <h3>{currentFriend.name}</h3>
+              {status ? (
+                <p>online</p>
+              ) : (
+                <p>
+                  Last Online :{" "}
+                  {new Date(online).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              )}
+            </div>
+          </React.Fragment>
+        )}
 
         <div className="chatPanel__headerIcons">
           <IconButton>
@@ -185,6 +216,7 @@ function SingleChatPanel(props) {
       <SingleChatList
         getChatHandler={getChats}
         friend={currentFriend.name}
+        loading={loading}
       ></SingleChatList>
 
       <div className="chatPanel__send">

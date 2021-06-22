@@ -21,7 +21,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import Tooltip from "@material-ui/core/Tooltip";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 const useStyles = makeStyles({
   list: {
     width: 450,
@@ -210,7 +210,9 @@ function TemporaryDrawer({ drawer }) {
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)}>Profile {drawer}</Button>
+      <Button onClick={toggleDrawer(true)}>
+        Profile {drawer} <AccountCircleIcon></AccountCircleIcon>
+      </Button>
       <Drawer anchor="left" open={state} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>

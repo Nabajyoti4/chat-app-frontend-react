@@ -6,10 +6,12 @@ import {
   Switch,
 } from "react-router-dom";
 
+
 // Pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/SignUp";
+
 
 function App() {
   return (
