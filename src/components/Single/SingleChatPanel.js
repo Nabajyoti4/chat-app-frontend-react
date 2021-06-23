@@ -209,7 +209,13 @@ function SingleChatPanel(props) {
         )}
         {!loading && (
           <React.Fragment>
-            <Avatar src={`/profile/${currentFriend.avatar}`}></Avatar>
+            <Avatar
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => dispatch(singleChatActions.setShowDrawer(true))}
+              src={`${process.env.REACT_APP_URL}${currentFriend.avatar}`}
+            ></Avatar>
             <div className="chatPanel__headerInfo">
               <h3>{currentFriend.name}</h3>
               {status ? (
