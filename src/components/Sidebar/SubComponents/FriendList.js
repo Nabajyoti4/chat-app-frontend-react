@@ -19,7 +19,7 @@ function ChatList(props) {
       })
     );
 
-    dispatch(fetchFriend(props.friendId));
+    dispatch(fetchFriend({ id: props.friendId, status: false }));
 
     dispatch(
       singleChatActions.setCurrentFriendStatus({

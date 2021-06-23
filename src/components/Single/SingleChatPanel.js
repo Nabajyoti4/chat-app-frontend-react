@@ -18,9 +18,12 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import MicIcon from "@material-ui/icons/Mic";
 import Skeleton from "@material-ui/lab/Skeleton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 //component
 import SingleChatList from "./SingleChatList";
+import FriendDrawer from "./UI/FriendDrawer";
 
 function SingleChatPanel(props) {
   //states
@@ -41,6 +44,17 @@ function SingleChatPanel(props) {
   const [loading, setLoading] = useState(false);
 
   const [message, setMessage] = useState("");
+
+  //more option for friend
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   //set message
   const messageHanlder = (e) => {
@@ -67,12 +81,22 @@ function SingleChatPanel(props) {
 
   socket.once("logout", () => {
     console.log(" logout thunk");
-    dispatch(fetchFriend(currentFriend._id));
+    dispatch(
+      fetchFriend({
+        id: currentFriend._id,
+        status: true,
+      })
+    );
   });
 
   socket.once("logined", () => {
     console.log("login thunk");
-    dispatch(fetchFriend(currentFriend._id));
+    dispatch(
+      fetchFriend({
+        id: currentFriend._id,
+        status: true,
+      })
+    );
   });
 
   /**
@@ -207,11 +231,32 @@ function SingleChatPanel(props) {
           <IconButton>
             <SearchIcon></SearchIcon>
           </IconButton>
-          <IconButton>
+          <IconButton onClick={handleClick}>
             <MoreVertIcon></MoreVertIcon>
           </IconButton>
         </div>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+          style={{
+            marginTop: "70px",
+            marginRight: "30px",
+          }}
+        >
+          <MenuItem
+            onClick={() => {
+              dispatch(singleChatActions.setShowDrawer(true));
+            }}
+          >
+            Contact Info
+          </MenuItem>
+        </Menu>
       </div>
+
+      <FriendDrawer></FriendDrawer>
 
       <SingleChatList
         getChatHandler={getChats}

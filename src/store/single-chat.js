@@ -10,6 +10,7 @@ const initialSingleChatState = {
   room: "",
   currentFriendStatus: null,
   currentFriendOnline: null,
+  drawer: false,
 };
 
 /**
@@ -34,18 +35,25 @@ const initialSingleChatState = {
 /**
  * thunk function to fetch users friend online status
  */
-export const fetchFriend = createAsyncThunk("friend", async (id, thunkAPI) => {
-  const response = await axios.get("/chat/get-friend", {
-    withCredentials: true,
-    headers: {
-      authorization: sessionStorage.getItem("token"),
-    },
-    params: {
-      id: id,
-    },
-  });
-  return response.data;
-});
+export const fetchFriend = createAsyncThunk(
+  "friend",
+  async ({ id, status }, thunkAPI) => {
+    const response = await axios.get("/chat/get-friend", {
+      withCredentials: true,
+      headers: {
+        authorization: sessionStorage.getItem("token"),
+      },
+      params: {
+        id: id,
+      },
+    });
+
+    return {
+      data: response.data,
+      status: status,
+    };
+  }
+);
 
 const singleChatSlice = createSlice({
   name: "singleChat",
@@ -74,6 +82,9 @@ const singleChatSlice = createSlice({
       state.currentFriendStatus = action.payload.logined;
       state.currentFriendOnline = action.payload.lastOnline;
     },
+    setShowDrawer(state, action) {
+      state.drawer = action.payload;
+    },
   },
   extraReducers: {
     // // Add reducers for additional action types here, and handle loading state as needed
@@ -85,10 +96,18 @@ const singleChatSlice = createSlice({
     [fetchFriend.fulfilled]: (state, action) => {
       // Add user to the state array
 
-      if (action.payload) {
-        state.currentSelectedFriend = action.payload;
-        state.currentFriendStatus = action.payload.logined;
-        state.currentFriendOnline = action.payload.lastOnline;
+      if (action.payload.data) {
+        const { data, status } = action.payload;
+
+        console.log(data);
+        if (status) {
+          state.currentFriendStatus = data.logined;
+          state.currentFriendOnline = data.lastOnline;
+        } else {
+          state.currentSelectedFriend = data;
+          state.currentFriendStatus = data.logined;
+          state.currentFriendOnline = data.lastOnline;
+        }
       }
     },
   },
